@@ -16,7 +16,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div id="firstItem" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -25,17 +25,17 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="iPhoneMinusBtn" class="btn btn-default" style="display: block;"><i class="fas fa-minus"></i></button>
+                           <input id="iPhoneNumber" type="text" class="form-control text-center" value="0">
+                           <button id="iPhonePlusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="iPhonePrice" >0</span> <span style="display: none;" id="iPhoneDemoPrice">1219</span> </h5>
+                        <img id="IPhoneRemoveBtn" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div id="secondItem" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -43,13 +43,13 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="iPhoneCoverMinusBtn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="iPhoneCoverNumber" type="text" class="form-control text-center" value="0">
+                           <button id="iPhoneCoverPlusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="iPhoneCoverPrice" >0</span> <span style="display: none;" id="iPhoneCoverDemoPrice">59</span></h5>
+                        <img id="IPhoneCoverRemoveBtn" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -59,14 +59,14 @@
 
                      <div class="col-md-8">
                         <h5>Subtotal: </h5>
-                        <h5>Tax:</h5>
+                        <h5>Tax (5%):</h5>
                         <h5>Total:</h5>
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="totalPrice">0</span></h5>
+                        <h5>$ <span id="tax">0.00</span></h5>
+                        <h5>$ <span id="subTotalPrice">0</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,119 @@
          </div>
       </div>
    </section>
+   <!-- JavaScript part-->
+   <script> 
+   
+      
+      
+
+   // plus-button function
+      function numberIncrease(id,number,price,demoPrice,total,tax,subtotal) {
+         const PlusBtn = document.getElementById(id);
+         PlusBtn.addEventListener('click', function(){
+            const NumberStr = document.getElementById(number).value;
+            const NumberFloat = parseFloat(NumberStr);
+            document.getElementById(number).value = (NumberFloat+1);
+
+            const productPrice = document.getElementById(price).innerText;
+            const productPriceNumber = parseFloat(productPrice);
+            const productDemoPrice = document.getElementById(demoPrice).innerText;
+            const productDemoPriceNumber = parseFloat(productDemoPrice);
+            document.getElementById(price).innerText =productPriceNumber + productDemoPriceNumber;
+
+
+            const totalPrice = document.getElementById(total).innerText
+            const totalNum = parseFloat(totalPrice);
+            document.getElementById(total).innerText = totalNum + productDemoPriceNumber;
+
+            const productTax = document.getElementById(tax).innerText
+            const taxNum = parseFloat(productTax);
+            const newTaxNum =  taxNum+ (5/100)*productDemoPriceNumber;
+            document.getElementById(tax).innerText =newTaxNum.toFixed(1);
+
+
+            const subTotal = document.getElementById(subtotal).innerText
+            const subTotalNum = parseFloat(subTotal);
+            document.getElementById(subtotal).innerText =(totalNum+productDemoPriceNumber+newTaxNum).toFixed(1);
+            
+            
+         })
+      }
+
+
+
+      // minus-button function
+      function numberDecrease(id,number,price,demoPrice,total,tax,subtotal) {
+         const PlusBtn = document.getElementById(id);
+         PlusBtn.addEventListener('click', function(){
+            const NumberStr = document.getElementById(number).value;
+            const NumberFloat = parseFloat(NumberStr);
+            document.getElementById(number).value = (NumberFloat-1);
+            
+
+            const productPrice = document.getElementById(price).innerText;
+            const productPriceNumber = parseFloat(productPrice);
+            const productDemoPrice = document.getElementById(demoPrice).innerText;
+            const productDemoPriceNumber = parseFloat(productDemoPrice);
+            document.getElementById(price).innerText =productPriceNumber - productDemoPriceNumber;
+
+
+            const totalPrice = document.getElementById(total).innerText
+            const totalNum = parseFloat(totalPrice);
+            document.getElementById(total).innerText = totalNum - productDemoPriceNumber;
+
+
+            const productTax = document.getElementById(tax).innerText
+            const taxNum = parseFloat(productTax);
+            const newTaxNum =  taxNum- (5/100)*productDemoPriceNumber;
+            document.getElementById(tax).innerText =newTaxNum.toFixed(2);
+
+            const subTotal = document.getElementById(subtotal).innerText
+            const subTotalNum = parseFloat(subTotal);
+            document.getElementById(subtotal).innerText =totalNum - productDemoPriceNumber + newTaxNum;
+
+
+            if (document.getElementById(number).value < 0) {
+               document.getElementById(number).value = 0;
+               document.getElementById(price).innerText = 0;
+               document.getElementById(total).innerText = totalNum ;
+               document.getElementById(tax).innerText =taxNum;
+               document.getElementById(subtotal).innerText =totalNum;
+            }
+            
+         })
+
+      
+      }
+
+     
+
+
+
+      // remove button function
+
+      function removeItem(id,item) {
+         const removeBtn = document.getElementById(id);
+         removeBtn.addEventListener('click',function(){
+            const CardItem = document.getElementById(item);
+            CardItem.style.display = "none"
+         })
+      }
+
+   //   IPhone section
+      numberIncrease("iPhonePlusBtn", "iPhoneNumber","iPhonePrice","iPhoneDemoPrice","totalPrice","tax","subTotalPrice");
+      numberDecrease("iPhoneMinusBtn", "iPhoneNumber","iPhonePrice","iPhoneDemoPrice","totalPrice","tax","subTotalPrice");
+   // IPhone cover section
+      numberIncrease("iPhoneCoverPlusBtn", "iPhoneCoverNumber","iPhoneCoverPrice","iPhoneCoverDemoPrice","totalPrice","tax","subTotalPrice");
+      numberDecrease("iPhoneCoverMinusBtn", "iPhoneCoverNumber","iPhoneCoverPrice","iPhoneCoverDemoPrice","totalPrice","tax","subTotalPrice");
+
+   // remove btn 
+   removeItem("IPhoneRemoveBtn","firstItem");
+   removeItem("IPhoneCoverRemoveBtn","secondItem");
+//  
+   
+     
+   </script>
 </body>
 
 </html>
